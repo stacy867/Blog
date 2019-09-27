@@ -1,17 +1,18 @@
-from flask import render_template,request,redirect,url_for,abort
+from flask import render_template,request,redirect,url_for,abort,flash
 from . import main
+from .. import db
 from flask_login import login_required,current_user
 # from ..requests import get_movies,get_movie,search_movie
-# from .forms import ReviewForm
-from ..models import Writer
+from .forms import BlogForm,CommentForm
+from ..models import Writer,Blog,Comment
 
 @main.route('/')
 def index():
    
     
-    
-    
-    return render_template('index.html', current_user=current_user)
+    blog=Blog.query.all()
+    comment= Comment.get_comments(id)
+    return render_template('index.html', current_user=current_user,blog=blog,comment=comment)
 
 @main.route('/writer/<uname>')
 def profile(uname):
@@ -40,3 +41,35 @@ def update_profile(uname):
         return redirect(url_for('.profile',uname=writer.username))
 
     return render_template('profile/update.html',form =form)
+
+@main.route('/newpost/', methods=['GET','POST'])
+@login_required
+
+def new_post():
+    form = BlogForm()
+    blog=Blog.query.all()
+    comment=Comment.query.filter_by(blog_id=id).first
+    
+    if form.validate_on_submit():
+    
+        new_post = Blog(title=form.title.data,content=form.content.data,author=form.author.data,writer_id=current_user.id)
+        db.session.add(new_post)
+        db.session.commit()
+        # flash('your post has been created!', 'success')
+        return redirect(url_for('.index'))
+    return render_template('newpost.html', title='New Post', blog_form=form,current_user=current_user,blog=blog,comment=comment)
+        
+@main.route('/newcomment/<int:id>',methods=['GET','POST'])
+
+def new_comment(id):
+    form =CommentForm()
+    comment=Comment.query.filter_by(blog_id=id).all()
+    # blog=Blog.query.all()
+    blog=Blog.query.filter_by(id=id).first()
+    title=f'write your comment'
+    
+    if form.validate_on_submit():
+        new_comment=Comment(feedback=form.comment.data,writer_id=current_user.id,blog_id=id)
+        new_comment.save_comment()
+        return redirect(url_for('.index',name=current_user.username))
+    return render_template('comment.html',title=title,comment_form=form,blog=blog)
