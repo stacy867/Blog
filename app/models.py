@@ -19,7 +19,7 @@ class Writer(UserMixin,db.Model):
     bio = db.Column(db.String(255))
     profile_pic_path = db.Column(db.String())
     blog=db.relationship('Blog',backref="writers")
-    comment=db.relationship('Comment',backref="writers")
+    
     
     
     @property
@@ -70,7 +70,7 @@ class Comment(db.Model):
     id = db.Column(db.Integer,primary_key =True)
     feedback= db.Column(db.String(255))  
     blog_id=db.Column(db.Integer,db.ForeignKey('blogposts.id'))
-    writer_id=db.Column(db.Integer,db.ForeignKey('writers.id'))
+   
     
     
     def save_comment(self):
