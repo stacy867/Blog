@@ -1,6 +1,6 @@
 <div class="navbar navbar-inverse" role="navigation">
     <div class="jumbotr">
-            <img src="https://www.incimages.com/uploaded_files/image/970x450/getty_728759387_366738.jpg" height=393, width=1900>
+            <!-- <img src="https://www.incimages.com/uploaded_files/image/970x450/getty_728759387_366738.jpg" height=393, width=1900> -->
          </div>
 
 <div class="container-fluid">
@@ -18,13 +18,16 @@
         <ul class="nav navbar-nav"style="background-color: black" >
             <li><a href="/">Home</a></li>
             </ul>
-
-            <ul class="nav navbar-nav navbar-right">
+           
+              <ul class="nav navbar-nav navbar-right"style="background-color: black" >
                 {% if current_user.is_authenticated %}
-                <li><a href="{{url_for('main.profile',uname=current_user.username)}}">Profile</a></li>
-                <li style="color:white;padding:15px;">{{current_user.username}}</li>
+                <li><a href="{{url_for('main.profile',uname=current_user.username)}}">{{current_user.username}} Profile</a></li>
                 <li><a href="{{url_for('auth.logout')}}">log out</a></li>
                 {% else %}
                 <li><a href="{{url_for('auth.login')}}">log in</a></li>
                 {%endif%}
-              </ul>    
+              </ul>
+    </div>
+   
+</div>
+</div>

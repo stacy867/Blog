@@ -11,7 +11,7 @@ def index():
     
     
     
-    return render_template('index.html')
+    return render_template('index.html', current_user=current_user)
 
 @main.route('/writer/<uname>')
 def profile(uname):
