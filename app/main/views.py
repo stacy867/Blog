@@ -48,7 +48,7 @@ def update_profile(uname):
 def new_post():
     form = BlogForm()
     blog=Blog.query.all()
-    writer = Writer.query.filter_by(writer_id = id).first()
+    # writer = Writer.query.filter_by(id = id).first()
     comment=Comment.query.filter_by(blog_id=id).first
     
     if form.validate_on_submit():
@@ -58,7 +58,7 @@ def new_post():
         db.session.commit()
         # flash('your post has been created!', 'success')
         return redirect(url_for('.index'))
-    return render_template('newpost.html', title='New Post', blog_form=form,current_user=current_user,blog=blog,comment=comment,writer=writer)
+    return render_template('newpost.html', title='New Post', blog_form=form,current_user=current_user,blog=blog,comment=comment)
         
 @main.route('/newcomment/<int:id>',methods=['GET','POST'])
 
