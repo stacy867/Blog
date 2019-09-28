@@ -1,5 +1,6 @@
 from flask import render_template,redirect,url_for,flash,request
 from . import auth
+from ..email import mail_message
 from ..models import Writer
 from .forms import LoginForm,RegistrationForm
 from .. import db
@@ -13,6 +14,7 @@ def register():
         writer = Writer(email = form.email.data, username = form.username.data,password = form.password.data)
         db.session.add(writer)
         db.session.commit()
+        mail_message("Welcome to BLOGWEBSITE","email/welcome_user",writer.email,writer=writer)
         return redirect(url_for('auth.login'))
         title = "New Account"
     return render_template('auth/register.html',registration_form = form,current_user=current_user)
