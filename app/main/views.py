@@ -96,3 +96,14 @@ def delete_post(id):
     db.session.commit()
     # flash('Your post has been deleted!', 'success')
     return redirect(url_for('main.index'))
+
+@main.route("/comment/<int:id>/delete", methods=['GET','POST'])
+@login_required
+def delete_comment(id):
+    comment=Comment.query.filter_by(id=id).first()
+    if comment is None:
+        abort(404)
+    db.session.delete(comment)
+    db.session.commit()
+    # flash('Your post has been deleted!', 'success')
+    return redirect(url_for('main.index'))    
