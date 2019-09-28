@@ -7,16 +7,22 @@
     <div class="container" style="color:white;background-color:black">
         <h1>Click on the button to add a blog post</h1><br>
         <a type="button" ></a>
+        
         <a href="{{url_for('main.new_post')}}" ><button type="button"  class="btn btn-dark">ADD A POST</button></a><br><br>
+
+        <!-- <a href="/newpost/" ><button type="button"  class="btn btn-dark">ADD A POST</button></a><br><br> -->
         <div style="border:1px solid black;height: 10%">
             {% for b in blog%}
             <p><strong>Blog title:</strong>{{b.title}}</p>
             <p><strong>Blog content:</strong>{{b.content}}</p>
-            <p><strong>Author:</strong>{{b.author}}</p>
+            
+            <p><strong>Author's profile name:</strong>{{b.writers.username}}</p>
+            <p>For more info visit my profile <a href="{{url_for('main.profile',uname=b.writers.username)}}">click here</a></p>
             {%for com in b.comment %}
             <p>comment:{{com.feedback}}</p>
             {% endfor %}
             <a href="{{url_for('main.new_comment',id=b.id)}}" ><button type="button"  class="btn btn-dark">ADD COMMENT</button></a>
+            
             {%endfor%}
 
 
