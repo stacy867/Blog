@@ -17,7 +17,7 @@ def index():
 @main.route('/writer/<uname>')
 def profile(uname):
     writer = Writer.query.filter_by(username = uname).first()
-    blog=Blog.query.filter_by(writer_id=current_user.username)
+    blog=Blog.query.filter_by(writer_id=current_user.id).first()
 
     if writer is None:
         abort(404)
@@ -86,3 +86,13 @@ def new_comment(id):
         new_comment.save_comment()
         return redirect(url_for('.index'))
     return render_template('comment.html',title=title,comment_form=form,blog=blog)
+@main.route("/post/<int:id>/delete", methods=['GET','POST'])
+@login_required
+def delete_post(id):
+    blog=Blog.query.filter_by(id=id).first()
+    if blog is None:
+        abort(404)
+    db.session.delete(blog)
+    db.session.commit()
+    # flash('Your post has been deleted!', 'success')
+    return redirect(url_for('main.index'))
