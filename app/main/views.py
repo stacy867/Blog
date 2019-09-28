@@ -1,9 +1,9 @@
 from flask import render_template,request,redirect,url_for,abort,flash
 from . import main
-from .. import db
+from .. import db,photos
 from flask_login import login_required,current_user
 # from ..requests import get_movies,get_movie,search_movie
-from .forms import BlogForm,CommentForm
+from .forms import BlogForm,CommentForm,UpdateProfile
 from ..models import Writer,Blog,Comment
 
 @main.route('/')
@@ -17,11 +17,12 @@ def index():
 @main.route('/writer/<uname>')
 def profile(uname):
     writer = Writer.query.filter_by(username = uname).first()
+    blog=Blog.query.filter_by(writer_id=current_user.username)
 
     if writer is None:
         abort(404)
 
-    return render_template("profile/writer_profile.html", writer = writer)
+    return render_template("profile/writer_profile.html", writer = writer,blog=blog)
 
 @main.route('/writer/<uname>/update',methods = ['GET','POST'])
 @login_required
@@ -33,14 +34,25 @@ def update_profile(uname):
     form = UpdateProfile()
 
     if form.validate_on_submit():
-        user.bio = form.bio.data
+        writer.bio = form.bio.data
 
-        db.session.add(user)
+        db.session.add(writer)
         db.session.commit()
 
         return redirect(url_for('.profile',uname=writer.username))
 
     return render_template('profile/update.html',form =form)
+
+@main.route('/user/<uname>/update/pic',methods= ['POST'])
+@login_required
+def update_pic(uname):
+    writer = Writer.query.filter_by(username = uname).first()
+    if 'photo' in request.files:
+        filename = photos.save(request.files['photo'])
+        path = f'photos/{filename}'
+        writer.profile_pic_path = path
+        db.session.commit()
+    return redirect(url_for('main.profile',uname=uname))    
 
 @main.route('/newpost/', methods=['GET','POST'])
 @login_required
