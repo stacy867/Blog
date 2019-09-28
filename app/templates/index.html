@@ -19,9 +19,12 @@
             <p><strong>Author's profile name:</strong>{{b.writers.username}}</p>
             <p>For more info visit my profile <a href="{{url_for('main.profile',uname=b.writers.username)}}">click here</a></p>
             {%for com in b.comment %}
-            <p>comment:{{com.feedback}}</p>
+            <p>comment:{{com.feedback}} <a  href="{{url_for('main.delete_comment',id=com.id)}}" >click hereto delete if you find it inappropriate</a></p>
+            
+            
             {% endfor %}
             <a href="{{url_for('main.new_comment',id=b.id)}}" ><button type="button"  class="btn btn-dark">ADD COMMENT</button></a>
+            <a  href="{{url_for('main.delete_post',id=b.id)}}" ><button type="button"  class="btn btn-dark">DELETE</button></a>
             
             {%endfor%}
 
