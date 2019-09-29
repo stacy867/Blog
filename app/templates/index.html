@@ -2,9 +2,15 @@
 {% extends "base.html" %}
 {% block content %}
 <link href="https://fonts.googleapis.com/css?family=Archivo+Narrow|Vollkorn+SC&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css?family=Bangers|Ranga&display=swap" rel="stylesheet">
     <br>
     <br>
+    <div class="textmiddle" style="text-align: center;font-family: 'Bangers', cursive">
+        <p>{{quotes.author}}</p>
+        <p><strong>"{{quotes.quote}}"</strong></p>
+    </div>
     <div class="container" style="color:white;background-color:black">
+        
         <h1>Click on the button to create a post for the blog</h1><br>
         <a type="button" ></a>
         
@@ -19,7 +25,7 @@
             <p><strong>Author's profile name:</strong>{{b.writers.username}}</p>
             <p>For more info visit my profile <a href="{{url_for('main.profile',uname=b.writers.username)}}">click here</a></p>
             {%for com in b.comment %}
-            <p>comment:{{com.feedback}} <a  href="{{url_for('main.delete_comment',id=com.id)}}" >click hereto delete if you find it inappropriate</a></p>
+            <p>comment:{{com.feedback}} <a  href="{{url_for('main.delete_comment',id=com.id)}}" >click here to delete if you find it inappropriate</a></p>
             
             
             {% endfor %}

@@ -1,6 +1,7 @@
 from flask import render_template,request,redirect,url_for,abort,flash
 from . import main
 from .. import db,photos
+from ..requests import get_quotes
 from flask_login import login_required,current_user
 # from ..requests import get_movies,get_movie,search_movie
 from .forms import BlogForm,CommentForm,UpdateProfile
@@ -12,7 +13,8 @@ def index():
     
     blog=Blog.query.all()
     comment= Comment.get_comments(id)
-    return render_template('index.html', current_user=current_user,blog=blog,comment=comment)
+    quotes = get_quotes()
+    return render_template('index.html', current_user=current_user,blog=blog,comment=comment,quotes=quotes)
 
 @main.route('/writer/<uname>')
 def profile(uname):
@@ -60,7 +62,7 @@ def update_pic(uname):
 def new_post():
     form = BlogForm()
     blog=Blog.query.all()
-    # writer = Writer.query.filter_by(id = id).first()
+    #writer = Writer.query.filter_by(id = id).first()
     comment=Comment.query.filter_by(blog_id=id).first
     
     if form.validate_on_submit():
