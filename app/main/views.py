@@ -78,20 +78,22 @@ def update_blog(id):
     blog=Blog.query.filter_by(id=id).first()
     if blog is None:
         abort(404)
-    form=BlogForm
-    if form.validate_on_submit(id):
+    form=BlogForm()
+    if form.validate_on_submit():
         blog.title=form.title.data
         blog.content=form.content.data
         blog.author =form.author.data
-        current_user.id =writer_id
+       
 
         db.session.commit()
         flash('Your post has been updated')
-        return redirect(url_for('main.index',blog_id=blog.id))
+        return redirect(url_for('.index',blog_id=blog.id))
     else:
         form.title.data = blog.title
         form.content.data= blog.content
-    return render_template('new_post.html', title='updating blog post',form=form)        
+        form.author.data=blog.author
+       
+    return render_template('newpost.html', title='updating blog post',blog_form=form,blog=blog)        
 
 
 
