@@ -71,7 +71,32 @@ def new_post():
         # flash('your post has been created!', 'success')
         return redirect(url_for('.index'))
     return render_template('newpost.html', title='New Post', blog_form=form,current_user=current_user,blog=blog,comment=comment)
-        
+
+
+@main.route('/post/<int:id>/update',methods=['GET','POST'])
+def update_blog(id):
+    blog=Blog.query.filter_by(id=id).first()
+    if blog is None:
+        abort(404)
+    form=BlogForm
+    if form.validate_on_submit(id):
+        blog.title=form.title.data
+        blog.content=form.content.data
+        blog.author =form.author.data
+        current_user.id =writer_id
+
+        db.session.commit()
+        flash('Your post has been updated')
+        return redirect(url_for('main.index',blog_id=blog.id))
+    else:
+        form.title.data = blog.title
+        form.content.data= blog.content
+    return render_template('new_post.html', title='updating blog post',form=form)        
+
+
+
+
+
 @main.route('/newcomment/<int:id>',methods=['GET','POST'])
 
 def new_comment(id):
