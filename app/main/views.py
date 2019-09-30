@@ -19,7 +19,8 @@ def index():
 @main.route('/writer/<uname>')
 def profile(uname):
     writer = Writer.query.filter_by(username = uname).first()
-    blog=Blog.query.filter_by(writer_id=current_user.id).first()
+    blog=Blog.query.filter_by(writer_id=current_user.id).all()
+    print(blog)
 
     if writer is None:
         abort(404)
@@ -61,8 +62,9 @@ def update_pic(uname):
 
 def new_post():
     form = BlogForm()
-    blog=Blog.query.all()
-    #writer = Writer.query.filter_by(id = id).first()
+    blog=Blog.query.filter_by(writer_id=current_user.id).all()
+    print(blog)
+    writer = Writer.query.filter_by(id = current_user.id).first()
     comment=Comment.query.filter_by(blog_id=id).first
     
     if form.validate_on_submit():

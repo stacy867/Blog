@@ -46,14 +46,18 @@
         <hr>
         <div style="border:1px solid black;height: 10%">
         <p ><strong style="text-decoration:'underline'">{{current_user.username|upper}} POSTS AND COMMENTS:</strong></p>
-        {% for b in current_user.writers %}
+        {% for b in blog%}
         <p><strong>blog title:</strong>{{b.title}}</p>
         <p><strong>blog content:</strong>{{b.content}}</p>
+        <p><strong>Author's name:</strong>{{b.author}}</p>
         
         {%for com in b.comment %}
             <p>comment:{{com.feedback}}</p>
             {% endfor %}
             <a href="{{url_for('main.new_comment',id=b.id)}}" ><button type="button"  class="btn btn-dark">ADD COMMENT</button></a>
+            <a  href="{{url_for('main.delete_post',id=b.id)}}" ><button type="button"  class="btn btn-dark">DELETE</button></a>
+            <a  href="{{url_for('main.update_blog',id=b.id)}}" ><button type="button"  class="btn btn-dark">UPDATE</button></a>
+
         {% endfor %}
         </div>
                    
