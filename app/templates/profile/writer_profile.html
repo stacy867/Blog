@@ -1,7 +1,8 @@
 {% extends 'base.html'%}
 
 {% block content %}
-<div class="container">
+<link href="https://fonts.googleapis.com/css?family=Dancing+Script&display=swap" rel="stylesheet">
+<div class="container" style="font-family: 'Dancing Script', cursive;color:white;background-color:black;opacity:0.8"> 
 <div class="row">
 <!-- displaying  Username-->
   <div class="col-md-4">
@@ -24,12 +25,10 @@
     {% endif %}
   </div>
   {% if writer == current_user %}
-    <a href="{{url_for('main.update_profile',uname=writer.username)}}">Edit profile</a>
+    <h4><a href="{{url_for('main.update_profile',uname=writer.username)}}">Edit profile</a></h4>
 {% endif %}
 <div class="col-md-4">
     {% if writer.profile_pic_path %}
-
-    
 
     {%else%}
     <p>No profile picture</p>
@@ -40,23 +39,25 @@
     <form  action="{{url_for('main.update_pic',uname=writer.username)}}" method="post" enctype = "multipart/form-data">
 
       <input type="file"  name="photo" class="form-control" required>
-      <input type="submit">
-
+      <br>
+      <input style="background-color:black" type="submit"><br><br>
+      <p ><strong style="text-decoration:'underline'">{{current_user.username|upper}} POSTS AND COMMENTS:</strong></p>
     </form>
         <hr>
+       
         <div style="border:1px solid black;height: 10%">
-        <p ><strong style="text-decoration:'underline'">{{current_user.username|upper}} POSTS AND COMMENTS:</strong></p>
+        
         {% for b in blog%}
-        <p><strong>blog title:</strong>{{b.title}}</p>
-        <p><strong>blog content:</strong>{{b.content}}</p>
-        <p><strong>Author's name:</strong>{{b.author}}</p>
+        <h3><strong>blog title:</strong>{{b.title}}</h3>
+        <h3><strong>blog content:</strong>{{b.content}}</h3>
+        <h3><strong>Author's name:</strong>{{b.author}}</h3>
         
         {%for com in b.comment %}
             <p>comment:{{com.feedback}}</p>
             {% endfor %}
-            <a href="{{url_for('main.new_comment',id=b.id)}}" ><button type="button"  class="btn btn-dark">ADD COMMENT</button></a>
-            <a  href="{{url_for('main.delete_post',id=b.id)}}" ><button type="button"  class="btn btn-dark">DELETE</button></a>
-            <a  href="{{url_for('main.update_blog',id=b.id)}}" ><button type="button"  class="btn btn-dark">UPDATE</button></a>
+            <a href="{{url_for('main.new_comment',id=b.id)}}" ><button type="button" style="color:black"  class="btn btn-dark">ADD COMMENT</button></a>
+            <a  href="{{url_for('main.delete_post',id=b.id)}}" ><button type="button" style="color:black" class="btn btn-dark">DELETE</button></a>
+            <a  href="{{url_for('main.update_blog',id=b.id)}}" ><button type="button" style="color:black" class="btn btn-dark">UPDATE</button></a>
 
         {% endfor %}
         </div>

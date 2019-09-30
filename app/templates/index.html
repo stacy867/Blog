@@ -2,37 +2,41 @@
 {% extends "base.html" %}
 {% block content %}
 <link href="https://fonts.googleapis.com/css?family=Archivo+Narrow|Vollkorn+SC&display=swap" rel="stylesheet">
-<link href="https://fonts.googleapis.com/css?family=Bangers|Ranga&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css?family=Dancing+Script&display=swap" rel="stylesheet">
     <br>
+    <div  style="text-align: center;font-family:  'Dancing Script', cursive">
+            <h1>{{quotes.author}}</h1>
+            <h2><strong>" {{quotes.quote}} "</strong></h2>
     
     
     <div class="container" style="color:white;background-color:black;opacity:0.8">
         <div class="row">
         <br>
-    <div class="col-md-4" style="text-align: center;font-family: 'Bangers', cursive">
-        <p>{{quotes.author}}</p>
-        <p><strong>"{{quotes.quote}}"</strong></p>
-    </div>
-    <div class="col-md-8">
+    
+    <div class="col-md-6">
+       
+      
+                </div>
+            
         <h1>Click on the button to create a post for the blog</h1><br>
         <a type="button" ></a>
         
-        <a href="{{url_for('main.new_post')}}" ><button type="button"  class="btn btn-dark">CREATE A POST</button></a><br><br>
+        <a href="{{url_for('main.new_post')}}" ><button type="button" style="color:black" class="btn btn-dark">CREATE A POST</button></a><br><br>
 
        
         <div style="border:1px solid black;height: 10%">
             {% for b in blog%}
-            <p><strong>Blog title:</strong>{{b.title}}</p>
-            <p><strong>Blog content:</strong>{{b.content}}</p>
+            <h3><strong>Blog title:</strong>{{b.title}}</h3>
+            <h3><strong>Blog content:</strong>{{b.content}}</h3>
             
-            <p><strong>Author's profile name:</strong>{{b.writers.username}}</p>
+            <h3><strong>Author's profile name:</strong>{{b.writers.username}}</h3>
             
             {%for com in b.comment %}
-            <p>comment:{{com.feedback}} <a  href="{{url_for('main.delete_comment',id=com.id)}}" >click here to delete if you find it inappropriate</a></p>
+            <h3><strong>omment:</strong>c{{com.feedback}} <a  href="{{url_for('main.delete_comment',id=com.id)}}" >click here to delete if you find it inappropriate</a></h3>
             
             
             {% endfor %}
-            <a href="{{url_for('main.new_comment',id=b.id)}}" ><button type="button"  class="btn btn-dark">ADD COMMENT</button></a>
+            <a href="{{url_for('main.new_comment',id=b.id)}}" ><button type="button" style="color:black" class="btn btn-dark">ADD COMMENT</button></a>
             
             
             {%endfor%}
